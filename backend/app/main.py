@@ -3,7 +3,7 @@ from collections.abc import AsyncGenerator
 from fastapi import FastAPI
 from fastapi.concurrency import asynccontextmanager
 
-from backend.app.api import health
+from backend.app.api import auth, health, users
 from backend.app.core.errors import register_exception_handlers
 from backend.app.core.logging import configure_logging
 from backend.app.core.config import Settings, get_settings
@@ -37,9 +37,9 @@ def create_app(settings_override: Settings | None = None) -> FastAPI:
         )
 
     register_exception_handlers(application)
-    application.include_router(health.router) # Checking the Liveness of the backend application and the Readiness of the database connection.
-    # application.include_router(auth.router, prefix=API_PREFIX)
-    # application.include_router(users.router, prefix=API_PREFIX)
+    application.include_router(health.router) 
+    application.include_router(auth.router, prefix=API_PREFIX)
+    application.include_router(users.router, prefix=API_PREFIX)
     # application.include_router(threads.router, prefix=API_PREFIX)
     # application.include_router(documents.router, prefix=API_PREFIX)
     # application.include_router(data_sources.router, prefix=API_PREFIX)
@@ -47,9 +47,9 @@ def create_app(settings_override: Settings | None = None) -> FastAPI:
     # application.include_router(chat.router, prefix=API_PREFIX)
     # application.include_router(metrics.router, prefix=API_PREFIX)
 
-    # @application.get("/")
-    # def read_root():
-    #     return {"Hello": "CeCe"}
+    @application.get("/")
+    def read_root():
+        return {"Hello": "CeCe"}
 
     return application
 

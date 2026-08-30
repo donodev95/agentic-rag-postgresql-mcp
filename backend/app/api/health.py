@@ -1,4 +1,7 @@
-"""Container and orchestrator health endpoints."""
+"""
+Container and orchestrator health endpoints.
+Checking the Liveness of the backend application and the Readiness of the database connection.
+"""
 
 from fastapi import APIRouter, status
 
